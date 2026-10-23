@@ -6,21 +6,19 @@ Runnable applications composing the public APIs of agentx and agentx-contrib.
 This is a separate Go 1.27.3 module, `github.com/nostosx/agentx-examples`.
 Library godoc Example tests remain with their packages.
 
-The first source snapshot is planned as v1.0.0 and has not been published.
+The v1.0.0 source snapshot uses published v1.0.0 library dependencies.
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
 
 ## Local setup
 
-agentx and its contrib modules are still under development. Keep their checkouts
-side by side so the replacements in go.mod resolve. kitx v1.0.0 downloads from
-the Go module proxy and needs no local checkout:
+Use Go 1.27.3. Clone this repository on its own; dependencies download from
+the Go module proxy, with no sibling checkouts or local replacements:
 
-```text
-nostosx/
-├── agentx/
-├── agentx-contrib/
-└── agentx-examples/
+```sh
+git clone https://github.com/nostosx/agentx-examples.git
+cd agentx-examples
+GOWORK=off go mod download
 ```
 
 Run from this directory with `GOWORK=off` (the Makefile already sets it).
@@ -72,16 +70,12 @@ make vulncheck
 ```
 
 CI builds all seven programs and runs regression tests without calling real
-model providers. It checks out agentx and agentx-contrib alongside this project.
-Their versions remain placeholders with local replacements; kitx uses published
-v1.0.0. The libraries do not depend on this project.
-
-After releases exist, select each dependency version independently. For each
-module, remove its replacement and require the chosen version, then run
-`GOWORK=off go mod tidy` and the checks. The three module paths are
-`github.com/nostosx/agentx`, `github.com/nostosx/agentx-contrib/provider` and
-`github.com/nostosx/agentx-contrib/filestore`. This project has no release or
-publishing workflow. See [CONTRIBUTING.md](CONTRIBUTING.md) for tool installation
+model providers. It resolves agentx, provider and filestore v1.0.0, plus kitx
+v1.0.0, from published modules without sibling checkouts or local replacements.
+The libraries do not depend on this project. Dependency updates must pass a
+standalone build before a new source snapshot is published. There is no
+automatic publishing workflow.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for tool installation
 and check details, [RELEASING.md](RELEASING.md) for reproducible snapshots and
 dependency updates, [CHANGELOG.md](CHANGELOG.md) for changes and
 [SECURITY.md](SECURITY.md) for private reports. Licensed under the [MIT License](LICENSE).

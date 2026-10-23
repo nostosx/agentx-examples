@@ -1,13 +1,13 @@
 # Changelog
 
-No snapshot has been released yet. Snapshot versions identify example source
-and dependencies; they do not establish a stable library API.
+Snapshot versions identify example source and dependencies; they do not
+establish a stable library API.
 
 ## Unreleased
 
 ## v1.0.0
 
-Prepared first source snapshot; not yet published.
+Release date: 2026-10-23.
 
 ### Added
 
@@ -19,6 +19,8 @@ Prepared first source snapshot; not yet published.
 ### Dependencies
 
 - Use the published kitx v1.0.0 through agentx and filestore.
-- Keep local replacements for the unreleased agentx, provider and filestore
-  modules. Independently buildable snapshots require published versions; see
-  [RELEASING.md](RELEASING.md).
+- Require published agentx v1.0.0 and the following contrib modules at v1.0.0:
+  `github.com/nostosx/agentx-contrib/provider`,
+  `github.com/nostosx/agentx-contrib/filestore`.
+- Resolve dependencies through the Go module proxy without sibling checkouts
+  or local replacements.

@@ -6,22 +6,21 @@
 `github.com/nostosx/agentx-examples`，要求 Go 1.27.3。
 库旁的 godoc `Example` 测试继续保留。
 
-首个源码快照计划为 v1.0.0，尚未发布。快照版本标识示例源码及依赖，
+v1.0.0 源码快照使用已发布的 v1.0.0 库依赖。快照版本标识示例源码及依赖，
 不代表稳定的库 API。
 
 ## 本地运行
 
-agentx 及其 contrib 模块仍处于开发阶段，请将以下目录放在同一级。
-kitx 已使用发布的 v1.0.0，由 Go 模块代理下载，无需本地检出：
+使用 Go 1.27.3，独立克隆本仓库即可。依赖从 Go 模块代理下载，
+无需同级仓库或本地替换：
 
-```text
-nostosx/
-├── agentx/
-├── agentx-contrib/
-└── agentx-examples/
+```sh
+git clone https://github.com/nostosx/agentx-examples.git
+cd agentx-examples
+GOWORK=off go mod download
 ```
 
-`go.mod` 通过相对 `replace` 解析尚未发布的 core 和 contrib 模块。从本目录运行：
+从本目录运行：
 
 ```sh
 export AGENTX_PROVIDER=anthropic
@@ -68,13 +67,11 @@ make lint
 make vulncheck
 ```
 
-CI 将 core、contrib 放在同级目录，编译全部示例并运行回归测试，不调用真实模型 API。
-core 和 contrib 使用占位版本及本地替换，kitx 使用发布的 v1.0.0；库不依赖示例项目。
-
-实际发布后，分别为 core、provider、filestore 选择版本并移除对应替换，
-再执行 `GOWORK=off go mod tidy` 和检查；三个模块路径详见
-[英文说明](README.md#checks-and-dependency-versions)。
-本项目没有发布工作流。工具安装与检查说明见 [CONTRIBUTING.md](CONTRIBUTING.md)，
+CI 编译全部示例并运行回归测试，不调用真实模型 API。
+agentx、provider、filestore 和 kitx 均使用已发布的 v1.0.0，
+无需同级源码检出或本地替换。库不反向依赖示例项目。
+依赖更新需要通过独立构建，随后发布新的源码快照；本项目没有自动发布工作流。
+工具安装与检查说明见 [CONTRIBUTING.md](CONTRIBUTING.md)，
 可重现快照及依赖更新见 [RELEASING.md](RELEASING.md)，私密漏洞报告见
 [SECURITY.md](SECURITY.md)，变更记录见 [CHANGELOG.md](CHANGELOG.md)。
 采用 [MIT 许可证](LICENSE)。
