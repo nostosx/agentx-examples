@@ -26,6 +26,10 @@ Run from this directory with `GOWORK=off` (the Makefile already sets it).
 first configured API key is used, in that order. Set the corresponding
 `ANTHROPIC_API_KEY`, `OPENAI_API_KEY` or `GEMINI_API_KEY` (`GOOGLE_API_KEY`
 also works for Gemini). `AGENTX_MODEL` overrides the provider default.
+The corresponding `ANTHROPIC_BASE_URL`, `OPENAI_BASE_URL` or `GEMINI_BASE_URL`
+can select a trusted compatible endpoint. Credentials are sent to that endpoint;
+leave it unset to use the provider's public API. OpenAI uses the Responses API
+by default, so a Chat Completions-only endpoint is not sufficient for these commands.
 
 ```sh
 export AGENTX_PROVIDER=anthropic
@@ -60,6 +64,32 @@ Browser clients at `http://localhost:3000` can preflight requests and must also
 send the token. Keep it out of client bundles and URLs. On SIGINT/SIGTERM, the
 server cancels active model calls, allows ten seconds for HTTP shutdown and
 closes remaining connections. Request examples are in [cmd/server/main.go](cmd/server/main.go).
+
+For a first server request, keep the provider configuration above and start
+the server in one terminal:
+
+```sh
+export AGENTX_SERVER_TOKEN="$(openssl rand -hex 32)"
+GOWORK=off go run ./cmd/server
+```
+
+In another terminal, set `AGENTX_SERVER_TOKEN` to the same value and run:
+
+```sh
+curl -N http://127.0.0.1:8080/sessions/demo/runs \
+  -H "Authorization: Bearer $AGENTX_SERVER_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{"input":"Deploy the latest build to staging"}'
+curl http://127.0.0.1:8080/sessions/demo \
+  -H "Authorization: Bearer $AGENTX_SERVER_TOKEN"
+```
+
+The run creates session `demo` automatically. If the model calls `deploy`,
+the event stream pauses for approval. Inspect the session's `pending` field,
+then use the resume request in `cmd/server/main.go` with the returned call ID.
+The deployment tool only returns a message; it does not deploy a real build.
+State is stored under `.agentx/` relative to the repository root. Use Ctrl+C
+to stop the server.
 
 ## Checks and dependency versions
 

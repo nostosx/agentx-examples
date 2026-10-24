@@ -32,6 +32,9 @@ GOWORK=off go run ./cmd/basic "什么是 agent loop？"
 未指定时，按此顺序选择已配置的 API key。
 分别使用 `ANTHROPIC_API_KEY`、`OPENAI_API_KEY`、`GEMINI_API_KEY`；
 Gemini 也支持 `GOOGLE_API_KEY`。`AGENTX_MODEL` 可覆盖默认模型。
+对应的 `ANTHROPIC_BASE_URL`、`OPENAI_BASE_URL` 或 `GEMINI_BASE_URL`
+可选择可信的兼容端点，凭据会发送到该地址；不设置时使用供应商的公开 API。
+OpenAI 默认使用 Responses API，因此这些命令不能直接使用只支持 Chat Completions 的端点。
 
 ## 示例
 
@@ -58,6 +61,29 @@ Gemini 也支持 `GOOGLE_API_KEY`。`AGENTX_MODEL` 可覆盖默认模型。
 不要将密钥写入前端构建产物或 URL。
 收到 SIGINT/SIGTERM 后，服务取消活动模型调用，为 HTTP 关闭保留十秒，随后关闭剩余连接。
 请求示例见 [cmd/server/main.go](cmd/server/main.go)。
+
+首次运行服务时，保留前面的模型配置，在一个终端启动：
+
+```sh
+export AGENTX_SERVER_TOKEN="$(openssl rand -hex 32)"
+GOWORK=off go run ./cmd/server
+```
+
+在另一个终端将 `AGENTX_SERVER_TOKEN` 设置为相同的值，再执行：
+
+```sh
+curl -N http://127.0.0.1:8080/sessions/demo/runs \
+  -H "Authorization: Bearer $AGENTX_SERVER_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d '{"input":"Deploy the latest build to staging"}'
+curl http://127.0.0.1:8080/sessions/demo \
+  -H "Authorization: Bearer $AGENTX_SERVER_TOKEN"
+```
+
+运行请求会自动创建 `demo` 会话。模型调用 `deploy` 时，事件流暂停并等待审批。
+查看会话的 `pending` 字段，将返回的调用 ID 填入 `cmd/server/main.go` 中的恢复请求。
+部署工具只返回演示消息，不会实际部署构建产物。
+状态保存在仓库根目录下的 `.agentx/` 中，使用 Ctrl+C 停止服务。
 
 ## 检查与依赖版本
 

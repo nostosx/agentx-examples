@@ -5,6 +5,9 @@ establish a stable library API.
 
 ## Unreleased
 
+- Document compatible endpoint configuration and a first authenticated server
+  request, including approval, resume and local state expectations.
+
 ## v1.0.0
 
 Release date: 2026-10-23.
