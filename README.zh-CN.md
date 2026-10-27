@@ -6,7 +6,7 @@
 `github.com/nostosx/agentx-examples`，要求 Go 1.27.3。
 库旁的 godoc `Example` 测试继续保留。
 
-v1.0.0 源码快照使用已发布的 v1.0.0 库依赖。快照版本标识示例源码及依赖，
+v1.1.0 源码快照使用已发布的 agentx v1.1.0、provider v1.1.0 和 filestore v1.0.0。快照版本标识示例源码及依赖，
 不代表稳定的库 API。
 
 ## 本地运行
@@ -94,7 +94,7 @@ make vulncheck
 ```
 
 CI 编译全部示例并运行回归测试，不调用真实模型 API。
-agentx、provider、filestore 和 kitx 均使用已发布的 v1.0.0，
+agentx v1.1.0、provider v1.1.0、filestore v1.0.0 和 kitx v1.0.0 均为已发布版本，
 无需同级源码检出或本地替换。库不反向依赖示例项目。
 依赖更新需要通过独立构建，随后发布新的源码快照；本项目没有自动发布工作流。
 工具安装与检查说明见 [CONTRIBUTING.md](CONTRIBUTING.md)，

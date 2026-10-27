@@ -3,8 +3,12 @@
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
 
-## Unreleased
+## v1.1.0
 
+Release date: 2026-10-27.
+
+- Require published agentx v1.1.0 and agentx-contrib provider v1.1.0;
+  filestore stays at v1.0.0. The programs need no source changes.
 - Document compatible endpoint configuration and a first authenticated server
   request, including approval, resume and local state expectations.
 

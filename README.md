@@ -6,7 +6,8 @@ Runnable applications composing the public APIs of agentx and agentx-contrib.
 This is a separate Go 1.27.3 module, `github.com/nostosx/agentx-examples`.
 Library godoc Example tests remain with their packages.
 
-The v1.0.0 source snapshot uses published v1.0.0 library dependencies.
+The v1.1.0 source snapshot uses published agentx v1.1.0, provider v1.1.0
+and filestore v1.0.0.
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
 
@@ -100,8 +101,8 @@ make vulncheck
 ```
 
 CI builds all seven programs and runs regression tests without calling real
-model providers. It resolves agentx, provider and filestore v1.0.0, plus kitx
-v1.0.0, from published modules without sibling checkouts or local replacements.
+model providers. It resolves agentx v1.1.0, provider v1.1.0, filestore v1.0.0
+and kitx v1.0.0 from published modules without sibling checkouts or local replacements.
 The libraries do not depend on this project. Dependency updates must pass a
 standalone build before a new source snapshot is published. There is no
 automatic publishing workflow.
