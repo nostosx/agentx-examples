@@ -12,3 +12,5 @@
 .DS_Store
 .agentx/
 .skills/
+/coverage.txt
+/.nostosx.lock

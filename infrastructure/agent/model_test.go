@@ -1,4 +1,4 @@
-package llm
+package agent
 
 import (
 	"testing"
@@ -6,7 +6,7 @@ import (
 	"github.com/nostosx/agentx/model"
 )
 
-func TestNew(t *testing.T) {
+func TestModelFromEnv(t *testing.T) {
 	for _, tt := range []struct {
 		name         string
 		env          map[string]string
@@ -29,7 +29,7 @@ func TestNew(t *testing.T) {
 				t.Setenv(key, value)
 			}
 			t.Setenv("AGENTX_MODEL", "fixture-model")
-			m, err := New()
+			m, err := ModelFromEnv()
 			if tt.wantError {
 				if err == nil || m != nil {
 					t.Fatalf("model=%T err=%v", m, err)

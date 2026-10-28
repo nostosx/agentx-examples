@@ -1,4 +1,4 @@
-package main
+package skills
 
 import (
 	"os"
@@ -9,7 +9,7 @@ import (
 
 func TestLoadSkillsEmbeddedOnly(t *testing.T) {
 	t.Parallel()
-	skills, err := loadSkills("")
+	skills, err := Load("")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -30,7 +30,7 @@ func TestLoadSkillsInvalidDirectory(t *testing.T) {
 		{name: "file", path: file},
 	} {
 		t.Run(tt.name, func(t *testing.T) {
-			if _, err := loadSkills(tt.path); err == nil {
+			if _, err := Load(tt.path); err == nil {
 				t.Fatal("invalid directory accepted")
 			}
 		})
@@ -57,7 +57,7 @@ func TestLoadSkillsExplicitDirectory(t *testing.T) {
 			if err := os.WriteFile(filepath.Join(dir, "SKILL.md"), []byte(tt.document), 0o600); err != nil {
 				t.Fatal(err)
 			}
-			skills, err := loadSkills(root)
+			skills, err := Load(root)
 			if tt.wantError {
 				if err == nil {
 					t.Fatal("invalid skill accepted")

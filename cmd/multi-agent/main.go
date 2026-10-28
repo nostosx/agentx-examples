@@ -1,18 +1,13 @@
-// Command multi-agent delegates work from a coordinator to specialist
-// sub-agents, which it calls as tools.
+// Command multi-agent runs the multi-agent agent example.
 package main
 
 import (
-	"context"
-	"fmt"
 	"log"
 	"time"
 
-	"github.com/nostosx/agentx-examples/internal/command"
-	"github.com/nostosx/agentx-examples/internal/llm"
-	"github.com/nostosx/agentx/agent"
-	"github.com/nostosx/agentx/hook"
-	"github.com/nostosx/agentx/loop"
+	example "github.com/nostosx/agentx-examples/application/multiagent"
+	agentinfra "github.com/nostosx/agentx-examples/infrastructure/agent"
+	"github.com/nostosx/agentx-examples/infrastructure/command"
 )
 
 func main() {
@@ -20,46 +15,12 @@ func main() {
 		log.Fatal(err)
 	}
 }
-
 func run() error {
 	ctx, cancel := command.Context(5 * time.Minute)
 	defer cancel()
-	m, err := llm.New()
+	m, err := agentinfra.ModelFromEnv()
 	if err != nil {
 		return err
 	}
-
-	researcher := agent.MustNew("researcher",
-		agent.WithModel(m),
-		agent.WithDescription("Gathers facts about a topic and reports them as a bullet list."),
-		agent.WithInstructions("You research topics. Reply with 3-5 factual bullet points."),
-	)
-	writer := agent.MustNew("writer",
-		agent.WithModel(m),
-		agent.WithDescription("Turns notes into a polished short paragraph."),
-		agent.WithInstructions("You are a technical writer. Write one clear paragraph from the notes you receive."),
-	)
-
-	coordinator := agent.MustNew("coordinator",
-		agent.WithModel(m),
-		agent.WithInstructions("Break the task down. Use researcher for facts, then writer for the final text. Return the writer's paragraph."),
-		agent.WithSubAgents(researcher, writer),
-		agent.WithHook(hook.SubagentStop, "*", hook.Func(func(_ context.Context, ev *hook.Event) (*hook.Result, error) {
-			log.Printf("sub-agent %s finished (%d chars)", ev.Agent, len(ev.Message))
-			return nil, nil
-		})),
-	)
-
-	res, err := loop.Collect(coordinator.Run(ctx,
-		agent.Text("Explain what the Model Context Protocol is.")),
-		func(ev *loop.Event) {
-			if ev.Type == loop.EventToolCall {
-				fmt.Printf("-> delegating to %s\n", ev.ToolCall.Name)
-			}
-		})
-	if err != nil {
-		return err
-	}
-	fmt.Println(res.Output)
-	return nil
+	return example.Run(ctx, m)
 }

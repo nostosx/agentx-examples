@@ -1,9 +1,9 @@
-// Package llm selects a model provider for the examples from the
+// Package agent selects a model provider for the examples from the
 // environment.
 //
 // AGENTX_PROVIDER chooses anthropic, openai or gemini; otherwise the first
 // provider with an API key set is used. AGENTX_MODEL overrides the model.
-package llm
+package agent
 
 import (
 	"errors"
@@ -16,9 +16,9 @@ import (
 	"github.com/nostosx/agentx/model"
 )
 
-// New constructs the provider selected by the environment without making a request.
+// ModelFromEnv constructs the provider selected by the environment without making a request.
 // It returns a nil model when provider configuration fails.
-func New() (model.Model, error) {
+func ModelFromEnv() (model.Model, error) {
 	provider := os.Getenv("AGENTX_PROVIDER")
 	if provider == "" {
 		switch {

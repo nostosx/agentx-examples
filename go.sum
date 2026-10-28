@@ -1,8 +1,10 @@
-github.com/nostosx/agentx v1.1.0 h1:lrf3X7WJ2kj8thlMiiXaj7Lb6jB1Z7xmDg/hi6dZOtI=
-github.com/nostosx/agentx v1.1.0/go.mod h1:B4jFEqH9+1B8Dc+AeU7PIHq2dg0rqFoS0QqHZSmAly0=
+github.com/nostosx/agentx v1.2.1 h1:ts1HlGzOKzNEgoqO0Af4WMKKlVUhQHFYUDI3pu7EhhI=
+github.com/nostosx/agentx v1.2.1/go.mod h1:B4jFEqH9+1B8Dc+AeU7PIHq2dg0rqFoS0QqHZSmAly0=
 github.com/nostosx/agentx-contrib/filestore v1.0.0 h1:uBIq0ZZA4pcc4PrcqNOtJUu7Ye0aXp1tF/oe+73cy7s=
 github.com/nostosx/agentx-contrib/filestore v1.0.0/go.mod h1:rHxGDDI/4bB6ILuodttNJR63ANh4Bbl/b0GEpdfia5M=
-github.com/nostosx/agentx-contrib/provider v1.1.0 h1:yeEdPmz3Rvw7VukrErQZYbFuRMRRmm320klsxnot9j4=
-github.com/nostosx/agentx-contrib/provider v1.1.0/go.mod h1:b/7z8WgGkHgdBBDvx2iETveAvu0apD/JirwPSiXXpQw=
+github.com/nostosx/agentx-contrib/provider v1.2.0 h1:BLPH0Fl9nfk6b/E6fjP8aKdshhr8i7IPOpXH2kW4OG0=
+github.com/nostosx/agentx-contrib/provider v1.2.0/go.mod h1:/UtIrdGZ0wAbfhiaf24gmyAhVYGrkMBbyYkBmXxwaZ4=
 github.com/nostosx/kitx v1.0.0 h1:EMfdh57DXbW+FPZD9/e+Mrxju1qx6EyEjrotpR+nso0=
 github.com/nostosx/kitx v1.0.0/go.mod h1:zNZAYv7ZyA2UkijHptpgnsSQKMmWIHp9E0e2TGBgDZE=
+github.com/nostosx/servex v1.3.0 h1:e/WKiScmGG8JRvvKt3rhW92adiodBycpiemfM3z0ChA=
+github.com/nostosx/servex v1.3.0/go.mod h1:9Qp0pyoc7lcNd11ke3OlEEWWcNnqEBxqlWtP4Yk37kw=
