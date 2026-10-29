@@ -11,6 +11,7 @@ import (
 	application "github.com/nostosx/agentx-examples/application/assistant"
 	agentinfra "github.com/nostosx/agentx-examples/infrastructure/agent"
 	"github.com/nostosx/agentx-examples/infrastructure/config"
+	"github.com/nostosx/agentx-examples/infrastructure/logging"
 	serverinfra "github.com/nostosx/agentx-examples/infrastructure/server"
 	httpport "github.com/nostosx/agentx-examples/services/assistant/internal/port/http"
 	"github.com/nostosx/agentx/model"
@@ -46,10 +47,15 @@ func (s *Service) Register(ctx context.Context, http *httpx.Server) {
 func (s *Service) Close() { s.protocols.Close() }
 
 // Run assembles the assistant and owns protocols and transport lifecycle.
-func Run(ctx context.Context, cfg config.Config) error {
+func Run(ctx context.Context, cfg config.Config) (err error) {
 	if err := ctx.Err(); err != nil {
 		return err
 	}
+	log, closeLog, err := logging.New(cfg.LogLevel, nil, cfg.LogFile)
+	if err != nil {
+		return err
+	}
+	defer func() { err = errors.Join(err, closeLog()) }()
 	if err := cfg.Validate(); err != nil {
 		return err
 	}
@@ -64,11 +70,11 @@ func Run(ctx context.Context, cfg config.Config) error {
 	defer service.Close()
 	var application *app.App
 	check := health.CheckerFunc(func(ctx context.Context) error { return application.Check(ctx) })
-	servers, err := serverinfra.New(ctx, cfg, check)
+	servers, err := serverinfra.New(ctx, cfg, check, log)
 	if err != nil {
 		return err
 	}
 	service.Register(ctx, servers.HTTP)
-	application = app.New(app.WithHooks(servers.HTTP), app.WithStopTimeout(10*time.Second))
+	application = app.New(app.WithLogger(log), app.WithHooks(servers.HTTP), app.WithStopTimeout(10*time.Second))
 	return application.Run(ctx)
 }

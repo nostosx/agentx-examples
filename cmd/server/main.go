@@ -4,22 +4,22 @@ import (
 	"context"
 	"errors"
 	"flag"
-	"log/slog"
 	"os"
 
 	application "github.com/nostosx/agentx-examples"
 	"github.com/nostosx/agentx-examples/infrastructure/config"
+	"github.com/nostosx/agentx-examples/infrastructure/logging"
 	"github.com/nostosx/servex/app"
 )
 
 func main() {
 	if err := run(); err != nil {
-		slog.Error("assistant stopped", "error", err)
+		logging.Report(err)
 		os.Exit(1)
 	}
 }
 func run() error {
-	cfg, err := config.Parse("assistant", os.Args[1:], os.Stderr)
+	cfg, err := config.Load(context.Background(), "assistant", os.Args[1:], os.Stderr)
 	if errors.Is(err, flag.ErrHelp) {
 		return nil
 	}

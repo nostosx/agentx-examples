@@ -34,7 +34,7 @@ func TestProtocolRoutes(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	defer cancel()
 	var app *lifecycle.App
-	servers, err := serverinfra.New(ctx, config.Config{Address: "127.0.0.1:0", Token: token}, health.CheckerFunc(func(ctx context.Context) error { return app.Check(ctx) }))
+	servers, err := serverinfra.New(ctx, config.Config{Address: "127.0.0.1:0", Token: token}, health.CheckerFunc(func(ctx context.Context) error { return app.Check(ctx) }), nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -113,7 +113,7 @@ func TestShutdownCancelsModelRequest(t *testing.T) {
 	ctx, cancel := context.WithCancel(t.Context())
 	defer cancel()
 	var app *lifecycle.App
-	servers, err := serverinfra.New(ctx, config.Config{Address: "127.0.0.1:0", Token: token}, health.CheckerFunc(func(ctx context.Context) error { return app.Check(ctx) }))
+	servers, err := serverinfra.New(ctx, config.Config{Address: "127.0.0.1:0", Token: token}, health.CheckerFunc(func(ctx context.Context) error { return app.Check(ctx) }), nil)
 	if err != nil {
 		t.Fatal(err)
 	}
