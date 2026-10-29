@@ -29,6 +29,10 @@ then the relevant Go skills. Read README.md, CONTRIBUTING.md and
   This application only enables HTTP. Do not add empty Proto/gRPC services, Buf
   configuration or contract gates. Do not add smoke or Python tooling.
 
-- Default process configuration uses contrib config/viper, including config.yaml,
+- Default process configuration uses contrib config/viper, including config/config.toml,
   APP_ overrides and explicit flags. app.go constructs contrib logger/zap console/file
   logging and injects the core Logger; keep globals and concrete backends out of domain/application.
+
+- TOML process files are independent: config/config.toml for cmd/server and
+  services/assistant/config/config.toml for the standalone service. Entry points pass
+  their default path to config.Load; preserve file/env/flag precedence.

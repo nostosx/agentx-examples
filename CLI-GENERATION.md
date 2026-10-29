@@ -1,8 +1,8 @@
 # CLI generation and application extensions
 
-This repository is one Go module created from the nostosx-cli v1.3.0 with the
+This repository is one Go module created from the nostosx-cli v1.4.0 with the
 monolith layout, agentx support and only HTTP. Normal builds need no sibling source.
-Install CLI v1.3.0 and set NOSTOSX to the absolute nostosx executable path.
+Install CLI v1.4.0 and set NOSTOSX to the absolute nostosx executable path.
 
 ## Create the foundation
 
@@ -54,6 +54,12 @@ README.md, README.zh-CN.md, CHANGELOG.md, SECURITY.md or LICENSE. This example
 repository maintains its own documentation and license.
 
 The current scaffold defaults to contrib Viper and contrib Zap. config.Load
-merges defaults, config.yaml, environment and explicit flags; app.go constructs,
+merges defaults, a process TOML file, environment and explicit flags; app.go constructs,
 injects and flushes the Logger. The example uses the same loading/logging files,
 with no hand-written configuration engine or global logging backend.
+
+The process configuration layout matches CLI v1.4.0: config/config.toml for
+the monolith and services/assistant/config/config.toml for the standalone entry.
+Each config.Load call explicitly supplies its default path between name and args.
+Paths are relative to the working directory; files are not merged across processes.
+Existing YAML-based applications need an explicit migration.

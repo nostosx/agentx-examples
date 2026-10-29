@@ -9,7 +9,7 @@ Runnable applications composing the public APIs of agentx and agentx-contrib.
 This is a separate Go 1.27.3 module, `github.com/nostosx/agentx-examples`.
 Library godoc Example tests remain with their packages.
 
-Snapshot v1.3.0 uses agentx v1.2.1, provider v1.2.0, filestore v1.0.0 and
+Snapshot v1.4.0 uses agentx v1.2.1, provider v1.2.0, filestore v1.0.0 and
 servex v1.4.0. The v1.1.0 tag retains its historical dependencies.
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
@@ -20,6 +20,8 @@ This repository is one monolith-layout CLI project with optional agent support.
 
 ```text
 app.go                       monolith Run; reuses the single service assembly
+config/config.toml           monolith process settings
+services/assistant/config/config.toml  standalone service settings
 cmd/                         thin command entries; cmd/server calls application.Run
 domain/assistant/            domain declarations
 application/                 agent demonstrations and release-assistant assembly
@@ -40,9 +42,15 @@ standalone service; both use the same flags, token and module. See
 [CLI-GENERATION.md](CLI-GENERATION.md) for the actual generation recipe and extensions.
 
 Server configuration is loaded by contrib Viper through infrastructure/config.Load:
-defaults < config.yaml < environment < explicit flags. The default file is optional;
+defaults < TOML file < environment < explicit flags. The default file is optional;
 --config selects a required file. APP_ADDRESS, APP_LOG_LEVEL and APP_TOKEN override
 file settings; APP_TOKEN takes precedence over API_TOKEN. --log-level selects the Zap level (default info).
+Monoliths load `config/config.toml`; the standalone service loads
+`services/assistant/config/config.toml`. Run from the repository root because
+paths are relative to the working directory. These files are independent; neither
+entry merges the other process's configuration. Use --config to select a deployment path.
+Both entries keep the same default ports; configure distinct addresses when running them together.
+
 Composition roots create contrib Zap console text and optional JSON file logging, inject the core Logger into
 the application and transport boundaries, and flush after shutdown.
 
@@ -53,7 +61,7 @@ An explicit component selects the module; otherwise it uses the caller package.
 Console records use local timestamps in YYYY-MM-DD HH:mm:ss format, uppercase levels,
 short caller locations and readable durations. File records use one JSON object
 per line, the same second-precision local timestamps and numeric durations in seconds. Business fields
-remain separate in both outputs. Set log_file in config.yaml, APP_LOG_FILE or
+remain separate in both outputs. Set log_file in the process TOML file, APP_LOG_FILE or
 --log-file to enable JSON file output; an explicit empty --log-file disables it.
 The default is console only. Enabled files rotate at 100 MiB, retain at most five
 backups for up to seven days, and compress backups with lumberjack v2.2.1.

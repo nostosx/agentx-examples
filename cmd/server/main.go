@@ -19,7 +19,7 @@ func main() {
 	}
 }
 func run() error {
-	cfg, err := config.Load(context.Background(), "assistant", os.Args[1:], os.Stderr)
+	cfg, err := config.Load(context.Background(), "assistant", "config/config.toml", os.Args[1:], os.Stderr)
 	if errors.Is(err, flag.ErrHelp) {
 		return nil
 	}

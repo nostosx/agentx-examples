@@ -7,7 +7,7 @@ automatic release workflow.
 
 ## Published dependencies
 
-The v1.3.0 snapshot uses these released modules, with no local replacements:
+The v1.4.0 snapshot uses these released modules, with no local replacements:
 
 | Module | Version |
 |---|---|

@@ -9,7 +9,7 @@
 `github.com/nostosx/agentx-examples`，要求 Go 1.27.3。
 库旁的 godoc `Example` 测试继续保留。
 
-v1.3.0 快照使用 agentx v1.2.1、provider v1.2.0、filestore v1.0.0、
+v1.4.0 快照使用 agentx v1.2.1、provider v1.2.0、filestore v1.0.0、
 servex v1.4.0。v1.1.0 标签保留历史依赖；快照版本标识示例源码及依赖，
 不代表稳定的库 API。
 
@@ -27,18 +27,24 @@ session、AI SDK、AG-UI、A2A 使用 agentx 原生 HTTP 协议，
 实际生成步骤和应用扩展见 [CLI-GENERATION.md](CLI-GENERATION.md)。
 
 服务进程配置由 infrastructure/config.Load 使用 contrib Viper 读取，优先级为：
-默认值 < config.yaml < 环境变量 < 显式参数。默认配置文件可缺省；
+默认值 < TOML 配置文件 < 环境变量 < 显式参数。默认配置文件可缺省；
 --config 指定的文件必须存在。APP_ADDRESS、APP_LOG_LEVEL、APP_TOKEN 覆盖文件配置，
 APP_TOKEN 优先于原有的 API_TOKEN。
 --log-level 选择 Zap 日志级别，默认 info。装配入口创建 contrib Zap 控制台文本和可选 JSON 文件 Logger，
 通过核心 Logger 接口注入应用和传输边界，并在关闭后 flush。
+
+单体入口默认读取 `config/config.toml`，独立服务入口默认读取
+`services/assistant/config/config.toml`。路径相对于启动工作目录，请从仓库根目录运行。
+每个进程只读取自己的文件，不自动合并另一个入口的配置；部署时可用
+`--config "/etc/assistant/config.toml"` 指定挂载路径。
+两种入口保留相同的默认监听端口；同时运行时，需分别修改配置或使用地址参数。
 
 控制台以 [模块] 消息 [字段:值] 展示事件，常用字段显示为 [操作:…]、
 [耗时:…]、[状态:…]、[错误:…]。消息及字段中的换行、制表符转义为文本，
 每个事件只占一行；模块优先取 component，缺省使用调用者包名。
 控制台使用本地时间（格式为 2026-10-29 17:13:50）、大写级别、简短调用位置和易读耗时；
 文件每行写一个 JSON 对象，使用相同的秒级本地时间及以秒为单位的数值耗时。
-两种输出都保留独立业务字段。通过 config.yaml 的 log_file、APP_LOG_FILE
+两种输出都保留独立业务字段。通过进程 TOML 配置的 log_file、APP_LOG_FILE
 或 --log-file 开启文件输出，显式传入空的 --log-file 可关闭文件输出。
 默认只输出控制台；启用文件后，通过 lumberjack v2.2.1 按 100 MiB 轮转，
 最多保留五个备份、七天并压缩。每个服务进程使用独立文件路径，所有使用者停止后关闭 Logger。
