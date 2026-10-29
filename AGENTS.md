@@ -7,6 +7,8 @@ then the relevant Go skills. Read README.md, CONTRIBUTING.md and
 - Go 1.27.3; one CLI-generated module. cmd/ holds thin entries; application/ owns
   example behavior, infrastructure/ owns configuration/lifecycle, and services/
   holds app.go, private adapters and standalone service entries.
+- Root app.go selects the monolith composition. Commands parse configuration,
+  create a signal context and call Run; keep assembly in root or service app.go.
 - Compose public APIs with explicit parameters. Do not add a DI container or
   move application wiring back into the libraries.
 - Core, contrib and kitx dependencies use published versions without
@@ -26,3 +28,7 @@ then the relevant Go skills. Read README.md, CONTRIBUTING.md and
   Keep domain/application free of generated contracts and transport imports.
   This application only enables HTTP. Do not add empty Proto/gRPC services, Buf
   configuration or contract gates. Do not add smoke or Python tooling.
+
+- Default process configuration uses contrib config/viper, including config.yaml,
+  APP_ overrides and explicit flags. app.go constructs contrib logger/zap console/file
+  logging and injects the core Logger; keep globals and concrete backends out of domain/application.

@@ -28,8 +28,10 @@ application and is never fetched again at startup.
   replace the unused generic generated Runner and its tests.
 - application/assistant assembles the approval-gated release tool. The service
   owns filestore sessions/checkpoints and the native agentx HTTP protocol server.
-- HTTP adapters implement authentication, CORS and owner cancellation. Root and
-  standalone entries reuse the same app.go and generated HTTP configuration and server constructors.
+- Root app.go owns the monolith Run entry and selects assistant.Run for this
+  single-service host. The standalone entry calls assistant.Run directly; both
+  reuse services/assistant/app.go and the generated HTTP constructors.
+- HTTP adapters implement authentication, CORS and owner cancellation.
 - Write timeouts are disabled for streaming. Owner cancellation reaches model
   requests before listener shutdown waits. API_TOKEN authenticates Agent routes;
   -addr replaces ADDR and only literal loopback listeners are permitted.
@@ -44,3 +46,14 @@ task check lint vulncheck
 No Buf, generation step, smoke job, Python, extra module or go.work is required.
 CI checks the actual application on Linux/macOS/Windows. Tests use temporary local
 listeners and model fixtures, without paid APIs or shared stores.
+
+Current CLI templates keep process entries limited to configuration, signal context
+and Run. Monolith assembly lives in root app.go; standalone assembly lives in
+services/<name>/app.go. The CLI no longer generates AGENTS.md, CONTRIBUTING.md,
+README.md, README.zh-CN.md, CHANGELOG.md, SECURITY.md or LICENSE. This example
+repository maintains its own documentation and license.
+
+The current scaffold defaults to contrib Viper and contrib Zap. config.Load
+merges defaults, config.yaml, environment and explicit flags; app.go constructs,
+injects and flushes the Logger. The example uses the same loading/logging files,
+with no hand-written configuration engine or global logging backend.

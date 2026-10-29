@@ -22,7 +22,8 @@ establish a stable library API.
 This repository is one monolith-layout CLI project with optional agent support.
 
 ```text
-cmd/                         thin command entries; cmd/server calls assistant.Run
+app.go                       monolith Run; reuses the single service assembly
+cmd/                         thin command entries; cmd/server calls application.Run
 domain/assistant/            domain declarations
 application/                 agent demonstrations and release-assistant assembly
 infrastructure/              model/skill configuration, command cancellation, server construction
@@ -30,7 +31,9 @@ services/assistant/          app.go, private HTTP adapters and cmd/assistant
 ```
 
 The six command-line entries retain their commands and delegate to application
-packages. Provider selection and trusted skills live in infrastructure. Both server entries parse configuration and call `assistant.Run(ctx, cfg)`.
+packages. Provider selection and trusted skills live in infrastructure.
+The monolith entry parses configuration and calls root `app.go`'s `Run(ctx, cfg)`,
+which reuses `assistant.Run`. The standalone entry calls `assistant.Run` directly.
 The service app.go owns file-backed sessions, protocol cleanup and explicit
 handler registration with the shared transport constructors. Session, AI SDK, AG-UI and A2A
 use agentx's native HTTP contracts. No Proto, gRPC listener or contract tooling is included.
@@ -38,6 +41,26 @@ use agentx's native HTTP contracts. No Proto, gRPC listener or contract tooling 
 Run `go run ./services/assistant/cmd/assistant` instead of `./cmd/server` for the
 standalone service; both use the same flags, token and module. See
 [CLI-GENERATION.md](CLI-GENERATION.md) for the actual generation recipe and extensions.
+
+Server configuration is loaded by contrib Viper through infrastructure/config.Load:
+defaults < config.yaml < environment < explicit flags. The default file is optional;
+--config selects a required file. APP_ADDRESS, APP_LOG_LEVEL and APP_TOKEN override
+file settings; APP_TOKEN takes precedence over API_TOKEN. --log-level selects the Zap level (default info).
+Composition roots create contrib Zap console text and optional JSON file logging, inject the core Logger into
+the application and transport boundaries, and flush after shutdown.
+
+Console records render modules and fields as [Module] message [key:value],
+with [操作:…], [耗时:…], [状态:…] and [错误:…] summaries. Newlines and tabs
+in messages/fields are escaped so one event occupies one physical line.
+An explicit component selects the module; otherwise it uses the caller package.
+Console records use local timestamps in YYYY-MM-DD HH:mm:ss format, uppercase levels,
+short caller locations and readable durations. File records use one JSON object
+per line, the same second-precision local timestamps and numeric durations in seconds. Business fields
+remain separate in both outputs. Set log_file in config.yaml, APP_LOG_FILE or
+--log-file to enable JSON file output; an explicit empty --log-file disables it.
+The default is console only. Enabled files rotate at 100 MiB, retain at most five
+backups for up to seven days, and compress backups with lumberjack v2.2.1.
+Give each service process its own file path; close the logger after its users stop.
 
 ## Local setup
 
