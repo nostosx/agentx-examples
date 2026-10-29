@@ -7,8 +7,8 @@ import (
 	"log/slog"
 	"os"
 
+	application "github.com/nostosx/agentx-examples"
 	"github.com/nostosx/agentx-examples/infrastructure/config"
-	"github.com/nostosx/agentx-examples/services/assistant"
 	"github.com/nostosx/servex/app"
 )
 
@@ -28,5 +28,5 @@ func run() error {
 	}
 	ctx, stop := app.SignalContext(context.Background())
 	defer stop()
-	return assistant.Run(ctx, cfg)
+	return application.Run(ctx, cfg)
 }
