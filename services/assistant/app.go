@@ -15,9 +15,9 @@ import (
 	httpport "github.com/nostosx/agentx-examples/services/assistant/internal/port/http"
 	"github.com/nostosx/agentx/model"
 	"github.com/nostosx/agentx/server"
+	"github.com/nostosx/servex-contrib/transport/httpx"
 	"github.com/nostosx/servex/app"
 	"github.com/nostosx/servex/health"
-	"github.com/nostosx/servex/transport/httpx"
 )
 
 type Service struct {

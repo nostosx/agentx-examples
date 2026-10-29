@@ -1,5 +1,10 @@
 # agentx-examples
 
+当前未发布源码已将 HTTP 后端迁至 servex-contrib/transport/httpx，
+共享出站客户端迁至 servex-contrib/transport/client；
+需要配套的未发布核心与 contrib 源码。依赖坐标用于准备配套发布；
+已发布标签保留原有依赖，公开代理验收须在更新真实版本与校验和后完成。
+
 [English](README.md) | 简体中文
 
 组合 agentx 与 agentx-contrib 公开 API 的可运行示例，独立模块为

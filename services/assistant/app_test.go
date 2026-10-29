@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/nostosx/agentx/model"
-	"github.com/nostosx/servex/transport/httpx"
+	"github.com/nostosx/servex-contrib/transport/httpx"
 )
 
 func TestRegister(t *testing.T) {
