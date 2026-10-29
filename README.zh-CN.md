@@ -1,9 +1,7 @@
 # agentx-examples
 
-当前未发布源码已将 HTTP 后端迁至 servex-contrib/transport/httpx，
-共享出站客户端迁至 servex-contrib/transport/client；
-需要配套的未发布核心与 contrib 源码。依赖坐标用于准备配套发布；
-已发布标签保留原有依赖，公开代理验收须在更新真实版本与校验和后完成。
+本快照使用公开发布的 servex v1.4.0，以及独立的 contrib HTTP、配置和日志模块，
+无需同级源码或本地 replace。
 
 [English](README.md) | 简体中文
 
@@ -11,8 +9,8 @@
 `github.com/nostosx/agentx-examples`，要求 Go 1.27.3。
 库旁的 godoc `Example` 测试继续保留。
 
-v1.2.0 快照使用 agentx v1.2.1、provider v1.2.0、filestore v1.0.0、
-servex v1.3.0。v1.1.0 标签保留历史依赖；快照版本标识示例源码及依赖，
+v1.3.0 快照使用 agentx v1.2.1、provider v1.2.0、filestore v1.0.0、
+servex v1.4.0。v1.1.0 标签保留历史依赖；快照版本标识示例源码及依赖，
 不代表稳定的库 API。
 
 ## CLI 生成的工程
@@ -139,7 +137,7 @@ task vulncheck
 格式、现代化、依赖和 vet 检查作为内部步骤保留。
 
 CI 编译全部示例并运行回归测试，不调用真实模型 API。
-agentx v1.2.1、provider v1.2.0、filestore v1.0.0、servex v1.3.0
+agentx v1.2.1、provider v1.2.0、filestore v1.0.0、servex v1.4.0
 和 kitx v1.0.0 均为已发布版本，
 无需同级源码检出或本地替换。库不反向依赖示例项目。
 依赖更新需要通过独立构建，随后发布新的源码快照；本项目没有自动发布工作流。

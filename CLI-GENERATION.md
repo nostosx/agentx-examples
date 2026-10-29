@@ -1,8 +1,8 @@
 # CLI generation and application extensions
 
-This repository is one Go module created from the nostosx-cli v1.2.0 with the
+This repository is one Go module created from the nostosx-cli v1.3.0 with the
 monolith layout, agentx support and only HTTP. Normal builds need no sibling source.
-Install CLI v1.2.0 and set NOSTOSX to the absolute nostosx executable path.
+Install CLI v1.3.0 and set NOSTOSX to the absolute nostosx executable path.
 
 ## Create the foundation
 

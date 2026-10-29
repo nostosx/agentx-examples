@@ -1,10 +1,7 @@
 # agentx-examples
 
-Current unreleased source moves the HTTP backend to servex-contrib/transport/httpx
-and its shared outbound client to servex-contrib/transport/client.
-It requires matching unpublished core/contrib sources; the declared adapter
-versions prepare a coordinated release. Published tags retain their original
-dependencies. Refresh versions and checksums before public-proxy acceptance.
+This snapshot uses published servex v1.4.0 and the independent contrib
+HTTP/configuration/logging modules, without sibling source replacements.
 
 English | [简体中文](README.zh-CN.md)
 
@@ -12,8 +9,8 @@ Runnable applications composing the public APIs of agentx and agentx-contrib.
 This is a separate Go 1.27.3 module, `github.com/nostosx/agentx-examples`.
 Library godoc Example tests remain with their packages.
 
-Snapshot v1.2.0 uses agentx v1.2.1, provider v1.2.0, filestore v1.0.0 and
-servex v1.3.0. The v1.1.0 tag retains its historical dependencies.
+Snapshot v1.3.0 uses agentx v1.2.1, provider v1.2.0, filestore v1.0.0 and
+servex v1.4.0. The v1.1.0 tag retains its historical dependencies.
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
 

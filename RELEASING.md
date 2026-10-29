@@ -7,15 +7,18 @@ automatic release workflow.
 
 ## Published dependencies
 
-The v1.2.0 snapshot uses these released modules, with no local replacements:
+The v1.3.0 snapshot uses these released modules, with no local replacements:
 
 | Module | Version |
 |---|---|
 | `github.com/nostosx/agentx` | v1.2.1 |
 | `github.com/nostosx/agentx-contrib/provider` | v1.2.0 |
 | `github.com/nostosx/agentx-contrib/filestore` | v1.0.0 |
-| `github.com/nostosx/servex` | v1.3.0 |
+| `github.com/nostosx/servex` | v1.4.0 |
 | `github.com/nostosx/kitx` | v1.0.0 |
+| `github.com/nostosx/servex-contrib/config/viper` | v1.0.0 |
+| `github.com/nostosx/servex-contrib/logger/zap` | v1.0.0 |
+| `github.com/nostosx/servex-contrib/transport/httpx` | v1.0.0 |
 
 For subsequent snapshots, publish and verify upstream core and contrib versions
 first. Select each version explicitly, tidy go.mod/go.sum and inspect the diff.

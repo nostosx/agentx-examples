@@ -69,7 +69,5 @@ Use CLI-GENERATION.md for the HTTP-only scaffold recipe. No Buf or contract
 generation is required. Keep transport imports out of domain/application and
 assemble dependencies explicitly in app.go.
 
-The current HTTP backend and shared client migration is unreleased. Validate matching core and
-contrib source revisions through throwaway module overrides, never repository
-replace directives. Refresh actual dependency versions/checksums and rerun the
-standalone public-proxy gates after those libraries are published.
+The current snapshot uses published core/contrib dependencies. Validate standalone
+consumers without temporary module overrides or sibling replacements.
