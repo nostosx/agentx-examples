@@ -9,9 +9,13 @@
 `github.com/nostosx/agentx-examples`，要求 Go 1.27.3。
 库旁的 godoc `Example` 测试继续保留。
 
-v1.4.0 快照使用 agentx v1.2.1、provider v1.2.0、filestore v1.0.0、
+v1.5.0 快照使用 agentx v1.3.0、provider v1.3.0、filestore v1.1.0、
 servex v1.4.0。v1.1.0 标签保留历史依赖；快照版本标识示例源码及依赖，
 不代表稳定的库 API。
+
+当前开发源码将 deploy 工具接到注入的 `cqrs.Command`；服务 Command 装配 `assistant.deploy_build`，工具适配器转换输入/结果，Agentx 审批通过后才执行。应用用例校验 staging/production 并处理取消；原生流式及会话协议继续由 agentx 提供。
+
+当前开发结构采用服务内 `internal/application/command.go` 中的 `Command`，统一装配稳定 operation 与类型化 CQRS chain；`app.go` 通过 `CommandDeps` 构造依赖并将 command handler 注入工具适配器。业务 context 与可部署 service 独立，协议端口只做转换。
 
 ## CLI 生成的工程
 
@@ -143,7 +147,7 @@ task vulncheck
 格式、现代化、依赖和 vet 检查作为内部步骤保留。
 
 CI 编译全部示例并运行回归测试，不调用真实模型 API。
-agentx v1.2.1、provider v1.2.0、filestore v1.0.0、servex v1.4.0
+agentx v1.3.0、provider v1.3.0、filestore v1.1.0、servex v1.4.0
 和 kitx v1.0.0 均为已发布版本，
 无需同级源码检出或本地替换。库不反向依赖示例项目。
 依赖更新需要通过独立构建，随后发布新的源码快照；本项目没有自动发布工作流。

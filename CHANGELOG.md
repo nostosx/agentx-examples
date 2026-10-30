@@ -3,7 +3,11 @@
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
 
-## Unreleased
+## v1.5.0 - 2026-10-31
+
+- Name the service-private application type Command in command.go and keep it separate from protocol adapters. Construct individual use cases in app.go, compose CQRS chains in handler aggregates, and inject handler aggregates into protocol boundaries.
+
+- Route the approval-gated deployment tool through an injected servex/cqrs command assembled in service app.go; validate environments and preserve cancellation and approval boundaries.
 
 ## v1.4.0 - 2026-10-29
 

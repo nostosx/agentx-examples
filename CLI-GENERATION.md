@@ -1,8 +1,8 @@
 # CLI generation and application extensions
 
-This repository is one Go module created from the nostosx-cli v1.4.0 with the
+This repository is one Go module created from the nostosx-cli v1.5.0 with the
 monolith layout, agentx support and only HTTP. Normal builds need no sibling source.
-Install CLI v1.4.0 and set NOSTOSX to the absolute nostosx executable path.
+Install CLI v1.5.0 and set NOSTOSX to the absolute nostosx executable path.
 
 ## Create the foundation
 
@@ -58,8 +58,16 @@ merges defaults, a process TOML file, environment and explicit flags; app.go con
 injects and flushes the Logger. The example uses the same loading/logging files,
 with no hand-written configuration engine or global logging backend.
 
-The process configuration layout matches CLI v1.4.0: config/config.toml for
+The process configuration layout matches CLI v1.5.0: config/config.toml for
 the monolith and services/assistant/config/config.toml for the standalone entry.
 Each config.Load call explicitly supplies its default path between name and args.
 Paths are relative to the working directory; files are not merged across processes.
 Existing YAML-based applications need an explicit migration.
+
+The application routes the approval-gated deploy tool through an injected `cqrs.Command`. Service app.go assembles `assistant.deploy_build`; the tool adapter maps its input/result and preserves Agentx approval before execution. The application command validates staging/production and cancellation. Native streaming/session protocols remain owned by agentx.
+
+CLI v1.5.0 separates contexts from services. `add api` requires `--context`; pure gRPC also requires `--kind query` or `--kind command`.
+
+The application layout separates business contexts from deployable services. Service-private `internal/application/command.go` declares `Command`, which assembles typed CQRS chains and metadata. `app.go` constructs dependencies through `CommandDeps` and injects the command handler into the tool adapter.
+
+The assistant approval tool uses the service Command; it introduces no additional HTTP/Proto business API.

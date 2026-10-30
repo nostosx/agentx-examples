@@ -36,3 +36,5 @@ then the relevant Go skills. Read README.md, CONTRIBUTING.md and
 - TOML process files are independent: config/config.toml for cmd/server and
   services/assistant/config/config.toml for the standalone service. Entry points pass
   their default path to config.Load; preserve file/env/flag precedence.
+
+The application layout separates business contexts from deployable services. Service-private `internal/application/command.go` declares `Command`, which assembles typed CQRS chains and metadata. `app.go` constructs dependencies through `CommandDeps` and injects the command handler into the tool adapter.

@@ -9,10 +9,14 @@ Runnable applications composing the public APIs of agentx and agentx-contrib.
 This is a separate Go 1.27.3 module, `github.com/nostosx/agentx-examples`.
 Library godoc Example tests remain with their packages.
 
-Snapshot v1.4.0 uses agentx v1.2.1, provider v1.2.0, filestore v1.0.0 and
+Snapshot v1.5.0 uses agentx v1.3.0, provider v1.3.0, filestore v1.1.0 and
 servex v1.4.0. The v1.1.0 tag retains its historical dependencies.
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
+
+The application routes the approval-gated deploy tool through an injected `cqrs.Command`. The service application aggregate assembles `assistant.deploy_build`; the tool adapter maps its input/result and preserves Agentx approval before execution. The application command validates staging/production and cancellation. Native streaming/session protocols remain owned by agentx.
+
+The application layout separates business contexts from deployable services. Service-private `internal/application/command.go` declares `Command`, which assembles typed CQRS chains and metadata. `app.go` constructs dependencies through `CommandDeps` and injects the command handler into the tool adapter.
 
 ## CLI-generated application
 

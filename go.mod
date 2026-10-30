@@ -3,11 +3,11 @@ module github.com/nostosx/agentx-examples
 go 1.27.3
 
 require (
-	github.com/nostosx/agentx v1.2.1
-	github.com/nostosx/agentx-contrib/filestore v1.0.0
-	github.com/nostosx/agentx-contrib/provider v1.2.0
+	github.com/nostosx/agentx v1.3.0
+	github.com/nostosx/agentx-contrib/filestore v1.1.0
+	github.com/nostosx/agentx-contrib/provider v1.3.0
 	github.com/nostosx/servex v1.4.0
-	github.com/nostosx/servex-contrib/config/viper v1.0.0
+	github.com/nostosx/servex-contrib/config/viper v1.0.1
 	github.com/nostosx/servex-contrib/logger/zap v1.0.0
 	github.com/nostosx/servex-contrib/transport/httpx v1.0.0
 	go.uber.org/zap v1.27.0
@@ -31,6 +31,6 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	go.uber.org/multierr v1.10.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/sys v0.29.0 // indirect
-	golang.org/x/text v0.28.0 // indirect
+	golang.org/x/sys v0.48.0 // indirect
+	golang.org/x/text v0.43.0 // indirect
 )
