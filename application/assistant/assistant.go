@@ -3,7 +3,9 @@ package assistant
 
 import (
 	"context"
-	"fmt"
+
+	"github.com/nostosx/agentx-examples/application/assistant/command"
+	"github.com/nostosx/servex/cqrs"
 
 	"github.com/nostosx/agentx/agent"
 	"github.com/nostosx/agentx/loop"
@@ -12,13 +14,10 @@ import (
 	"github.com/nostosx/agentx/tool"
 )
 
-type deployInput struct {
-	Env string `json:"env" jsonschema:"enum=staging,enum=production,description=Target environment"`
-}
-
-func New(m model.Model, checkpoints loop.Checkpointer, sessions session.Store) *agent.Runner {
-	deploy := tool.Func("deploy", "Deploy the latest build.", func(_ context.Context, in deployInput) (string, error) {
-		return fmt.Sprintf("Deployed the latest build to %s.", in.Env), nil
+func New(m model.Model, checkpoints loop.Checkpointer, sessions session.Store, deployBuild cqrs.Command[command.DeployBuildCommand, command.DeployBuildResult]) *agent.Runner {
+	deploy := tool.Func("deploy", "Deploy the latest build.", func(ctx context.Context, in command.DeployBuildCommand) (string, error) {
+		result, err := deployBuild.Handle(ctx, in)
+		return result.Message, err
 	}, tool.RequireApproval())
 	a := agent.MustNew("ops", agent.WithModel(m), agent.WithInstructions("You are a release assistant. Deploy builds when asked."), agent.WithTools(deploy), agent.WithCheckpointer(checkpoints), agent.WithStreaming())
 	return agent.NewRunner(a, sessions)

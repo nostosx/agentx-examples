@@ -9,15 +9,18 @@ import (
 
 	"github.com/nostosx/agentx-contrib/filestore"
 	application "github.com/nostosx/agentx-examples/application/assistant"
+	"github.com/nostosx/agentx-examples/application/assistant/command"
 	agentinfra "github.com/nostosx/agentx-examples/infrastructure/agent"
 	"github.com/nostosx/agentx-examples/infrastructure/config"
 	"github.com/nostosx/agentx-examples/infrastructure/logging"
 	serverinfra "github.com/nostosx/agentx-examples/infrastructure/server"
+	serviceapp "github.com/nostosx/agentx-examples/services/assistant/internal/application"
 	httpport "github.com/nostosx/agentx-examples/services/assistant/internal/port/http"
 	"github.com/nostosx/agentx/model"
 	"github.com/nostosx/agentx/server"
 	"github.com/nostosx/servex-contrib/transport/httpx"
 	"github.com/nostosx/servex/app"
+	"github.com/nostosx/servex/cqrs"
 	"github.com/nostosx/servex/health"
 )
 
@@ -26,7 +29,7 @@ type Service struct {
 	token     string
 }
 
-func New(m model.Model, token, stateDir string) (*Service, error) {
+func New(m model.Model, token, stateDir string, middleware ...cqrs.CommandMiddleware[command.DeployBuildCommand, command.DeployBuildResult]) (*Service, error) {
 	if m == nil {
 		return nil, errors.New("assistant requires a model")
 	}
@@ -38,7 +41,8 @@ func New(m model.Model, token, stateDir string) (*Service, error) {
 	if err != nil {
 		return nil, err
 	}
-	protocols := server.New(application.New(m, cp, sessions), server.WithCheckpointer(cp), server.WithCORS("http://localhost:3000"), server.WithA2A(server.A2AConfig{Name: "ops", Description: "Deploys builds after approval."}))
+	commands := serviceapp.NewCommand(serviceapp.CommandDeps{DeployBuild: command.NewDeployBuildHandler(), Middleware: middleware})
+	protocols := server.New(application.New(m, cp, sessions, commands.DeployBuild), server.WithCheckpointer(cp), server.WithCORS("http://localhost:3000"), server.WithA2A(server.A2AConfig{Name: "ops", Description: "Deploys builds after approval."}))
 	return &Service{protocols: protocols, token: token}, nil
 }
 func (s *Service) Register(ctx context.Context, http *httpx.Server) {
