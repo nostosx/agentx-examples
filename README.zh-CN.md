@@ -1,6 +1,8 @@
 # agentx-examples
 
-本快照使用公开发布的 servex v1.4.0，以及独立的 contrib HTTP、配置和日志模块，
+[PostgreSQL RAG 示例](POSTGRESQL.md)：在应用层复用 Servex 后端，原子写入分块，通过混合检索工具返回引用；使用固定向量，不调用付费模型。
+
+本快照使用公开发布的 servex v1.5.0，以及独立的 contrib HTTP、配置和日志模块，
 无需同级源码或本地 replace。
 
 [English](README.md) | 简体中文
@@ -9,8 +11,8 @@
 `github.com/nostosx/agentx-examples`，要求 Go 1.27.3。
 库旁的 godoc `Example` 测试继续保留。
 
-v1.5.0 快照使用 agentx v1.3.0、provider v1.3.0、filestore v1.1.0、
-servex v1.4.0。v1.1.0 标签保留历史依赖；快照版本标识示例源码及依赖，
+v1.6.0 快照使用 agentx v1.4.0、provider v1.3.0、filestore v1.1.0、
+servex v1.5.0。v1.1.0 标签保留历史依赖；快照版本标识示例源码及依赖，
 不代表稳定的库 API。
 
 当前开发源码将 deploy 工具接到注入的 `cqrs.Command`；服务 Command 装配 `assistant.deploy_build`，工具适配器转换输入/结果，Agentx 审批通过后才执行。应用用例校验 staging/production 并处理取消；原生流式及会话协议继续由 agentx 提供。
@@ -147,7 +149,7 @@ task vulncheck
 格式、现代化、依赖和 vet 检查作为内部步骤保留。
 
 CI 编译全部示例并运行回归测试，不调用真实模型 API。
-agentx v1.3.0、provider v1.3.0、filestore v1.1.0、servex v1.4.0
+agentx v1.4.0、provider v1.3.0、filestore v1.1.0、servex v1.5.0
 和 kitx v1.0.0 均为已发布版本，
 无需同级源码检出或本地替换。库不反向依赖示例项目。
 依赖更新需要通过独立构建，随后发布新的源码快照；本项目没有自动发布工作流。

@@ -3,6 +3,11 @@
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
 
+## v1.6.0 - 2026-10-31
+
+- Add a PostgreSQL RAG tool using generic Servex retrieval contracts and concrete vector/text backends. Ingest encoded chunks atomically, fuse ranks, verify exact source/metadata isolation and return citations; use deterministic embeddings without paid API calls.
+- Select published Servex v1.5.0 and PostgreSQL contrib v1.0.0 dependencies; document owned demo resources and add required real PostgreSQL CI acceptance.
+
 ## v1.5.0 - 2026-10-31
 
 - Name the service-private application type Command in command.go and keep it separate from protocol adapters. Construct individual use cases in app.go, compose CQRS chains in handler aggregates, and inject handler aggregates into protocol boundaries.

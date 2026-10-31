@@ -71,3 +71,7 @@ assemble dependencies explicitly in app.go.
 
 The current snapshot uses published core/contrib dependencies. Validate standalone
 consumers without temporary module overrides or sibling replacements.
+
+PostgreSQL examples use an owned vector-enabled database and the existing
+`task test INTEGRATION=true` gate. See [POSTGRESQL.md](POSTGRESQL.md) for
+configuration, explicit migrations, cleanup and required real-service behavior.

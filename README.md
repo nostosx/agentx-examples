@@ -1,6 +1,8 @@
 # agentx-examples
 
-This snapshot uses published servex v1.4.0 and the independent contrib
+PostgreSQL RAG: [run the knowledge-tool example](POSTGRESQL.md) with concrete Servex backends, atomic chunk ingestion, rank fusion and citations. Uses deterministic embeddings without paid model calls.
+
+This snapshot uses published servex v1.5.0 and the independent contrib
 HTTP/configuration/logging modules, without sibling source replacements.
 
 English | [简体中文](README.zh-CN.md)
@@ -9,8 +11,8 @@ Runnable applications composing the public APIs of agentx and agentx-contrib.
 This is a separate Go 1.27.3 module, `github.com/nostosx/agentx-examples`.
 Library godoc Example tests remain with their packages.
 
-Snapshot v1.5.0 uses agentx v1.3.0, provider v1.3.0, filestore v1.1.0 and
-servex v1.4.0. The v1.1.0 tag retains its historical dependencies.
+Snapshot v1.6.0 uses agentx v1.4.0, provider v1.3.0, filestore v1.1.0 and
+servex v1.5.0. The v1.1.0 tag retains its historical dependencies.
 Snapshot versions identify example source and dependencies; they do not
 establish a stable library API.
 

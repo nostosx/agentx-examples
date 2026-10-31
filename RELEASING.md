@@ -7,18 +7,27 @@ automatic release workflow.
 
 ## Published dependencies
 
-The v1.5.0 snapshot uses these released modules, with no local replacements:
+The v1.6.0 snapshot uses these released modules, with no local replacements:
 
 | Module | Version |
 |---|---|
-| `github.com/nostosx/agentx` | v1.3.0 |
+| `github.com/nostosx/agentx` | v1.4.0 |
 | `github.com/nostosx/agentx-contrib/provider` | v1.3.0 |
 | `github.com/nostosx/agentx-contrib/filestore` | v1.1.0 |
-| `github.com/nostosx/servex` | v1.4.0 |
+| `github.com/nostosx/servex` | v1.5.0 |
 | `github.com/nostosx/kitx` | v1.0.0 |
 | `github.com/nostosx/servex-contrib/config/viper` | v1.0.1 |
 | `github.com/nostosx/servex-contrib/logger/zap` | v1.0.0 |
-| `github.com/nostosx/servex-contrib/transport/httpx` | v1.0.0 |
+| `github.com/nostosx/servex-contrib/transport/httpx` | v1.1.0 |
+
+The PostgreSQL example additionally pins these published capabilities:
+
+| Module | Version |
+|---|---|
+| agentx-contrib/retrieval | v1.2.0 |
+| servex-contrib/database/postgres | v1.0.0 |
+| servex-contrib/vector/pgvector | v1.0.0 |
+| servex-contrib/search/postgres | v1.0.0 |
 
 For subsequent snapshots, publish and verify upstream core and contrib versions
 first. Select each version explicitly, tidy go.mod/go.sum and inspect the diff.
@@ -51,3 +60,9 @@ using the matching changelog section as its notes. The initial snapshot is
 `v1.0.0`; later snapshots use new versions. Verify the remote tag resolves to
 the checked commit and the source archive can be downloaded. Never move an
 already published tag. Dependency updates require a new snapshot.
+
+## PostgreSQL acceptance
+
+The v1.6.0 snapshot requires the PostgreSQL integration job at the exact release
+commit, in addition to every existing gate. See [POSTGRESQL.md](POSTGRESQL.md).
+Record actual tool/transaction behavior separately from standalone builds.
